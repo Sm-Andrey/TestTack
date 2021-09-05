@@ -7,8 +7,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPage {
-    private WebDriver driver;
-    private WebDriverWait wait;
+    protected WebDriver driver;
+    protected WebDriverWait wait;
 
     public MainPage(WebDriver driver, WebDriverWait wait) {
             this.driver = driver;
@@ -20,24 +20,8 @@ public class MainPage {
         driver.navigate().to("https://yandex.ru/");
     }
 
-    public void openMailPage(){
-        driver.navigate().to("https://mail.yandex.ru/");
-    }
-
     @FindBy(xpath = "(//a[contains(@class, 'desk-notif-card__login-new-item')])[1]")
     public WebElement buttonAuthorization;
-
-    @FindBy(xpath = "//*[@id='passp-field-login']")
-    public WebElement fieldInputEmail;
-
-    @FindBy(xpath = "//*[@id='passp:sign-in']")
-    public WebElement buttonEnter;
-
-    @FindBy(xpath = "//*[@id='passp-field-passwd']")
-    public WebElement fieldInputPassword;
-
-    @FindBy(xpath = "//*[@data-t='button:pseudo']")
-    public WebElement buttonNotNow;
 
     @FindBy(xpath = "//a[contains(@class, 'desk-notif-card__domik-mail-line')]")
     private WebElement buttonGoToMail;
