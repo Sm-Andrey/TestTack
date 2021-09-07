@@ -7,8 +7,14 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPage {
-    protected WebDriver driver;
-    protected WebDriverWait wait;
+    @FindBy(xpath = "(//a[contains(@class, 'desk-notif-card__login-new-item')])[1]")
+    public WebElement buttonAuthorization;
+
+    @FindBy(xpath = "//a[contains(@class, 'desk-notif-card__domik-mail-line')]")
+    private WebElement buttonGoToMail;
+
+    public WebDriver driver;
+    public WebDriverWait wait;
 
     public MainPage(WebDriver driver, WebDriverWait wait) {
             this.driver = driver;
@@ -19,12 +25,6 @@ public class MainPage {
     public void openHomePage(){
         driver.navigate().to("https://yandex.ru/");
     }
-
-    @FindBy(xpath = "(//a[contains(@class, 'desk-notif-card__login-new-item')])[1]")
-    public WebElement buttonAuthorization;
-
-    @FindBy(xpath = "//a[contains(@class, 'desk-notif-card__domik-mail-line')]")
-    private WebElement buttonGoToMail;
 
     public MailPage buttonGoToMail(){
         buttonGoToMail.click();

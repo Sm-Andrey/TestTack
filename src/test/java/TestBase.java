@@ -27,15 +27,9 @@ public class TestBase {
         driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), caps);
         //For Firefox use below capabilities
         //DesiredCapabilities caps = DesiredCapabilities.firefox();(new URL("http://localhost:4444/wd/hub"), caps);
-        System.setProperty("webdriver.chrome.driver", "drivers\\chromedriver.exe");
-        var options = new ChromeOptions();
-        options.addArguments("--start-maximized");
-        options.setUnhandledPromptBehaviour(UnexpectedAlertBehaviour.DISMISS);
-        driver = new ChromeDriver(options);
         initialWindow = driver.getWindowHandle();
         wait = new WebDriverWait(driver, 5);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
 
         }
     @AfterEach
@@ -52,7 +46,7 @@ public class TestBase {
     }
     public void takeScreenshot() throws IOException {
         var sourceFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        FileUtils.copyFile(sourceFile, new File("c:\\tmp\\screenshot.png"));
+        FileUtils.copyFile(sourceFile, new File("target\\tmp\\screenshot.png"));
     }
     public Set<String> getAllWindows(){
         return driver.getWindowHandles();
@@ -61,8 +55,5 @@ public class TestBase {
     public void switchToFirstNewWindow(){
         var newWindows = getAllWindows().stream().filter(w -> !w.equals(initialWindow)).collect(Collectors.toSet());
         driver.switchTo().window(newWindows.stream().findFirst().get());
-    }
-    public void switchToWindow(String windowId){
-        driver.switchTo().window(windowId);
     }
 }

@@ -10,8 +10,9 @@ public class Tests  extends TestBase {
     private String email = "andr3test@yandex.ru";
     private String password = "qwerty!123";
     private String expectedNameMail = "Simbirsoft Тестовое задание";
-    private String textEmail = "Найдено писем - 2";
+    private String textEmail = "Найдено писем - ";
     private String twoExpectedNameMail = "Simbirsoft Тестовое задание. Смотров";
+    private int expectedSizeMail;
 
     @BeforeEach
     public void authorizeSite() {
@@ -23,35 +24,25 @@ public class Tests  extends TestBase {
         authorizePage.authorize(email, password);
         homePage.buttonGoToMail();
     }
-
     @Test
-    public void chaseEmail() {
+    public void testEmail() {
         //act
         var mailPage = new MailPage(driver, wait);
         switchToFirstNewWindow();
-        //assert
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(expectedNameMail, mailPage.textListNameMail.get(1).getText(), "Название письма не совпадает"),
-                () -> Assertions.assertEquals(2, mailPage.textListNameMail.size(), "Количество писем не совпадает")
-        );
-    }
-    @Test
-    public void sendEmail() {
-        //act
-        var mailPage = new MailPage(driver, wait);
-        switchToFirstNewWindow();
+        mailPage.fieldSearchMail.sendKeys(expectedNameMail);
+        mailPage.buttonSearchMail.click();
+        expectedSizeMail = mailPage.textListNameMail.size();
         mailPage.buttonWrite.click();
         mailPage.stringAddress.sendKeys(email);
         mailPage.stringTopic.sendKeys(twoExpectedNameMail);
-        mailPage.windowText.sendKeys(textEmail);
+        mailPage.windowText.sendKeys(textEmail + expectedSizeMail);
         mailPage.buttonSend.click();
         mailPage.waitMail();
         var actualTextName = mailPage.textNowNameMail.getText();
         //assert
         Assertions.assertAll(
-                () -> Assertions.assertEquals(twoExpectedNameMail, actualTextName, "Название письма не совпадает"),
-                () -> Assertions.assertTrue(mailPage.textNowNameMail.isDisplayed(), "Письма не совпадает")
+                () -> Assertions.assertTrue(mailPage.textNowNameMail.isDisplayed(), "Письма не совпадает"),
+                () -> Assertions.assertEquals(twoExpectedNameMail, actualTextName, "Название письма не совпадает")
         );
     }
-
 }

@@ -1,6 +1,5 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,17 +8,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-public class MailPage extends MainPage {
+public class MailPage{
 
-    public MailPage (WebDriver driver, WebDriverWait wait) {
-        super(driver, wait);
-        this.driver = driver;
-        this.wait = wait;
-        PageFactory.initElements(driver, this);
-    }
+    @FindBy(css = "input.textinput__control")
+    public WebElement fieldSearchMail;
 
-    @FindBy(xpath = "//*[@title='Simbirsoft Тестовое задание']")
+    @FindBy(css = "div[class*=ns-view-messages-item-wrap]")
     public List<WebElement> textListNameMail;
+
+    @FindBy(css = "button[class*=search-input__form-button]")
+    public WebElement buttonSearchMail;
 
     @FindBy(xpath = "//*[@title='Simbirsoft Тестовое задание. Смотров']")
     public WebElement textNowNameMail;
@@ -39,6 +37,13 @@ public class MailPage extends MainPage {
     @FindBy(xpath = "(//button[contains(@class, 'Button2_size_l')])[1]")
     public WebElement buttonSend;
 
+    public WebDriver driver;
+    public WebDriverWait wait;
+    public MailPage (WebDriver driver, WebDriverWait wait) {
+        this.driver = driver;
+        this.wait = wait;
+        PageFactory.initElements(driver, this);
+    }
     public void waitMail(){
         var newWait = new WebDriverWait(driver, 30);
         newWait.until(driver -> textNowNameMail.isDisplayed());
