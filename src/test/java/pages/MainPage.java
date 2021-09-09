@@ -17,16 +17,16 @@ public class MainPage {
     public WebDriverWait wait;
 
     public MainPage(WebDriver driver, WebDriverWait wait) {
-            this.driver = driver;
-            this.wait = wait;
-            PageFactory.initElements(driver, this);
-        }
+        this.driver = driver;
+        this.wait = wait;
+        PageFactory.initElements(driver, this);
+    }
 
-    public void openHomePage(){
+    public void openHomePage() {
         driver.navigate().to("https://yandex.ru/");
     }
 
-    public MailPage buttonGoToMail(){
+    public MailPage buttonGoToMail() {
         buttonGoToMail.click();
         return new MailPage(driver, wait);
     }

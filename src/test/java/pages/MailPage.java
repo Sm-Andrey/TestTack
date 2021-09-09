@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-public class MailPage{
+public class MailPage {
 
     @FindBy(css = "input.textinput__control")
     public WebElement fieldSearchMail;
@@ -39,12 +39,14 @@ public class MailPage{
 
     public WebDriver driver;
     public WebDriverWait wait;
-    public MailPage (WebDriver driver, WebDriverWait wait) {
+
+    public MailPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
         PageFactory.initElements(driver, this);
     }
-    public void waitMail(){
+
+    public void waitMail() {
         var newWait = new WebDriverWait(driver, 30);
         newWait.until(driver -> textNowNameMail.isDisplayed());
     }

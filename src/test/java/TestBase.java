@@ -2,8 +2,6 @@ import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -21,22 +19,25 @@ public class TestBase {
     protected WebDriver driver;
     protected WebDriverWait wait;
     public String initialWindow;
+
     @BeforeEach
     public void setUp() throws MalformedURLException {
         DesiredCapabilities caps = DesiredCapabilities.chrome();
         driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), caps);
         //For Firefox use below capabilities
         //DesiredCapabilities caps = DesiredCapabilities.firefox();(new URL("http://localhost:4444/wd/hub"), caps);
+        driver.manage().window().maximize();
         initialWindow = driver.getWindowHandle();
         wait = new WebDriverWait(driver, 5);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-        }
+    }
+
     @AfterEach
     public void tearDown() throws IOException {
-        try{
+        try {
             takeScreenshot();
-        }catch (UnhandledAlertException alertException){
+        } catch (UnhandledAlertException alertException) {
             Alert alert = driver.switchTo().alert();
             System.out.println("Alert text: " + alert.getText());
             alert.accept();
@@ -44,15 +45,17 @@ public class TestBase {
         }
         driver.quit();
     }
+
     public void takeScreenshot() throws IOException {
         var sourceFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(sourceFile, new File("target\\tmp\\screenshot.png"));
     }
-    public Set<String> getAllWindows(){
+
+    public Set<String> getAllWindows() {
         return driver.getWindowHandles();
     }
 
-    public void switchToFirstNewWindow(){
+    public void switchToFirstNewWindow() {
         var newWindows = getAllWindows().stream().filter(w -> !w.equals(initialWindow)).collect(Collectors.toSet());
         driver.switchTo().window(newWindows.stream().findFirst().get());
     }

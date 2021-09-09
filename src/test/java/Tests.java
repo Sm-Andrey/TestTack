@@ -5,7 +5,7 @@ import pages.AuthorizationPage;
 import pages.MailPage;
 import pages.MainPage;
 
-public class Tests  extends TestBase {
+public class Tests extends TestBase {
 
     private String email = "andr3test@yandex.ru";
     private String password = "qwerty!123";
@@ -24,6 +24,7 @@ public class Tests  extends TestBase {
         authorizePage.authorize(email, password);
         homePage.buttonGoToMail();
     }
+
     @Test
     public void testEmail() {
         //act
